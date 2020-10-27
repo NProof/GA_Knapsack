@@ -5,7 +5,7 @@ Record::Record(std::bitset<100> input, double output) {
     this->output = output;
 }
 
-double Record::getInput()
+std::bitset<100> Record::getInput()
 {
     return input;
 }
