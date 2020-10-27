@@ -18,7 +18,9 @@ int main() {
         group.insert(new Chromosome(nullptr));
     }
     for(auto individual : group) {
-        std::cout << individual->getbody() << " [F] : " << p.fitness(*individual) << "\n";
+        double val = p.fitness(*individual);
+        std::cout << individual->getbody() << " [F] : " << val << "\n";
+        experiment.addRecord(Record(individual->getbody(), val));
     }
     return 0;
 }
