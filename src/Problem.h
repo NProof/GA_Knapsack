@@ -2,6 +2,9 @@
 #define PROBLEM_H_INCLUDED
 
 #include <vector>
+#include <bitset>
+
+#include "Chromosome.h"
 
 class Item {
     double w;
@@ -22,6 +25,9 @@ public:
     double W;
     std::vector<Item> items;
     Problem();
+
+    double fitness(Chromosome & input);
+//    double fitness(Chromosome & input, Experiment & experiment);
 };
 
 #endif // PROBLEM_H_INCLUDED

@@ -16,7 +16,7 @@ int main() {
         group.insert(new Chromosome(nullptr));
     }
     for(auto individual : group) {
-        std::cout << individual->getbody() << "\n";
+        std::cout << individual->getbody() << " [F] : " << p.fitness(*individual) << "\n";
     }
     return 0;
 }
