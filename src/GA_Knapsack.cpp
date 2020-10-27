@@ -5,11 +5,13 @@
 
 #include "Problem.h"
 #include "Chromosome.h"
+#include "Experiment.h"
 
 int main() {
     std::ios_base::sync_with_stdio(false);
 
     Problem p;
+    Experiment experiment;
 
     std::set<Chromosome*> group ;
     for(int i=0; i<15; ++i) {
