@@ -22,4 +22,3 @@ Chromosome::Chromosome(std::bitset<100> *ptr_body = nullptr) {
 std::bitset<100> Chromosome::getbody() const {
     return body;
 }
-
