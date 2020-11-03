@@ -30,48 +30,50 @@ int main() {
 //        experiment.reportToFile(file);
 //        file.close();
     }
-
-    std::ofstream file;
-    file.open("avg.csv");
-    std::vector<Record> tables[SAMPLES];
-    std::vector<Record>::iterator iter[SAMPLES];
-    double betters[SAMPLES];
-    long conuts = 1;
-    for(int i=0; i<SAMPLES; ++i) {
-        tables[i] = exps[i]->gettable();
-        iter[i] = tables[i].begin();
-        betters[i] = iter[i]->getOutput();
-        tables[i].begin()->getOutput();
-
-        double avg = 0.0;
-        for(int i=0; i<SAMPLES; ++i) {
-            avg += betters[i];
-        }
-        avg /= SAMPLES;
-
-        file << conuts << "\t" << avg << "\n";
-    }
-    bool condition;
-    do {
-        ++conuts;
-        condition = false;
-        for(int i=0; i<SAMPLES; ++i) {
-            if(iter[i]!=tables[i].end()) {
-                condition = true;
-                ++iter[i];
-                if(iter[i]->getOutput()>betters[i])
-                    betters[i] = iter[i]->getOutput();
-            }
-        }
-        double avg = 0.0;
-        for(int i=0; i<SAMPLES; ++i) {
-            avg += betters[i];
-        }
-        avg /= SAMPLES;
-
-        file << conuts << "\t" << avg << "\n";
-    }
-    while(condition);
-    file.close();
+/*
+ *     std::ofstream file;
+ *     file.open("avg.csv");
+ *     std::vector<Record> tables[SAMPLES];
+ *     std::vector<Record>::iterator iter[SAMPLES];
+ *     double betters[SAMPLES];
+ *     long conuts = 1;
+ *     for(int i=0; i<SAMPLES; ++i) {
+ *         tables[i] = exps[i]->gettable();
+ *         iter[i] = tables[i].begin();
+ *         betters[i] = iter[i]->getOutput();
+ *
+ *         double avg = 0.0;
+ *         for(int i=0; i<SAMPLES; ++i) {
+ *             avg += betters[i];
+ *         }
+ *         avg /= SAMPLES;
+ *
+ *         file << conuts << "\t" << avg << "\n";
+ *     }
+ *     bool condition;
+ *     while (true) {
+ *         ++conuts;
+ *         condition = false;
+ *         for(int i=0; i<SAMPLES; ++i) {
+ *             if(iter[i]!=tables[i].end()) {
+ *                 condition = true;
+ *                 ++iter[i];
+ *                 if(iter[i]->getOutput()>betters[i])
+ *                     betters[i] = iter[i]->getOutput();
+ *             }
+ *         }
+ *         if(!condition)
+ *             break;
+ *
+ *         double avg = 0.0;
+ *         for(int i=0; i<SAMPLES; ++i) {
+ *             avg += betters[i];
+ *         }
+ *         avg /= SAMPLES;
+ *
+ *         file << conuts << "\t" << avg << "\n";
+ *     }
+ *     file.close();
+ */
     return 0;
 }
