@@ -50,6 +50,9 @@ int Experiment::runAlgorithm() {
         addRecord(Record(individual->getbody(), val));
         std::cout << individual->getbody() << " [F] : " << val << "\n";
     }
+    for(auto i : group) {
+        delete i;
+    }
     return 0;
 }
 
