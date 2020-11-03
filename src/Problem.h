@@ -27,7 +27,6 @@ public:
     std::vector<Item> items;
     Problem();
 
-//    double fitness(Chromosome & input);
     double fitness(Chromosome & input, Experiment & experiment);
 };
 
