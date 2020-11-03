@@ -27,7 +27,7 @@ public:
     std::vector<Item> items;
     Problem();
 
-    double fitness(Chromosome & input, Experiment & experiment);
+    double fitness(Chromosome & input, Experiment * experiment);
 };
 
 #endif // PROBLEM_H_INCLUDED

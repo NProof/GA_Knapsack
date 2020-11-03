@@ -27,7 +27,7 @@ double Experiment::calBest()
     for(; i < (int)table.size(); ++i)
     {
         output = table[i].getOutput();
-        if(output < best)
+        if(output > best)
         {
             best = output;
         }
