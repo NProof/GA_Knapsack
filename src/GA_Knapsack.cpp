@@ -1,8 +1,11 @@
 //#include <bits/stdc++.h>
 #include <iostream>
+#include <string>
 
 #include "Problem.h"
 #include "Experiment.h"
+
+#define SAMPLES 1
 
 std::ostream& operator<<(std::ostream& os, const Experiment& ex)
 {
@@ -14,12 +17,61 @@ int main() {
     std::ios_base::sync_with_stdio(false);
 
     Problem p;
-    Experiment experiment(p);
-    experiment.runAlgorithm();
-    std::cout << experiment;
+    std::vector<Experiment *> exps = std::vector<Experiment *>();
+//    exps = (Experiment **)malloc(sizeof(Experiment*)*SAMPLES);
+    for(int i=0; i<SAMPLES; ++i) {
+        exps.push_back(new Experiment(p));
+        Experiment experiment = *exps.at(i);
+        experiment.runAlgorithm();
+        std::cout << experiment;
+//        std::ofstream file;
+//        std::string name = "output";
+//        file.open(name+std::to_string(i+1)+".csv");
+//        experiment.reportToFile(file);
+//        file.close();
+    }
+
     std::ofstream file;
-    file.open("output.csv");
-    experiment.reportToFile(file);
+    file.open("avg.csv");
+    std::vector<Record> tables[SAMPLES];
+    std::vector<Record>::iterator iter[SAMPLES];
+    double betters[SAMPLES];
+    long conuts = 1;
+    for(int i=0; i<SAMPLES; ++i) {
+        tables[i] = exps[i]->gettable();
+        iter[i] = tables[i].begin();
+        betters[i] = iter[i]->getOutput();
+        tables[i].begin()->getOutput();
+
+        double avg = 0.0;
+        for(int i=0; i<SAMPLES; ++i) {
+            avg += betters[i];
+        }
+        avg /= SAMPLES;
+
+        file << conuts << "\t" << avg << "\n";
+    }
+    bool condition;
+    do {
+        ++conuts;
+        condition = false;
+        for(int i=0; i<SAMPLES; ++i) {
+            if(iter[i]!=tables[i].end()) {
+                condition = true;
+                ++iter[i];
+                if(iter[i]->getOutput()>betters[i])
+                    betters[i] = iter[i]->getOutput();
+            }
+        }
+        double avg = 0.0;
+        for(int i=0; i<SAMPLES; ++i) {
+            avg += betters[i];
+        }
+        avg /= SAMPLES;
+
+        file << conuts << "\t" << avg << "\n";
+    }
+    while(condition);
     file.close();
     return 0;
 }
