@@ -22,3 +22,70 @@ Chromosome::Chromosome(std::bitset<100> *ptr_body = nullptr) {
 std::bitset<100> Chromosome::getbody() const {
     return body;
 }
+
+
+std::pair<std::vector<Chromosome*>, std::vector<Chromosome*> > select(std::map<Chromosome*, double> gas, int n) {
+    auto cmp = [](std::pair<Chromosome*, double> a, std::pair<Chromosome*, double> b) {
+        return a.second > b.second || (a.second == b.second && a.first < b.first);
+    };
+    std::set<std::pair<Chromosome*, double>, decltype(cmp)> orderGas(cmp);
+    for(std::pair<Chromosome*, double> g : gas) {
+        orderGas.insert(g);
+    }
+//    std::cout << "orderGas.size() : " << orderGas.size() << "\n";
+    auto iter = orderGas.begin();
+    std::pair<std::vector<Chromosome*>, std::vector<Chromosome*> > ret;
+    for(int i=0; i<n; ++i) {
+        ret.first.push_back(iter->first);
+        ++iter;
+    }
+    while(iter != orderGas.end()) {
+        ret.second.push_back(iter->first);
+        ++iter;
+    }
+    return ret;
+}
+
+Chromosome * crossover(Chromosome & a, Chromosome & b) {
+    std::bitset<100> rmask;
+    double rate = 0.4;
+    for(int i=0; i<100; ++i) {
+        double r = (double) rand() / RAND_MAX;
+        if(r<rate) {
+            rmask[i] = 1;
+        }
+    }
+//    std::cout << rmask;
+    std::bitset<100> ret;
+    std::bitset<100> aga, bga;
+    aga = a.getbody();
+    bga = b.getbody();
+    for(int i=0; i<100; ++i) {
+        if(rmask.test(i)) {
+            ret[i] = aga[i];
+        }
+        else {
+            ret[i] = bga[i];
+        }
+    }
+    return new Chromosome(&ret);
+}
+
+Chromosome & mutation(Chromosome & ga) {
+    std::bitset<100> rmask;
+    double rate = 0.043;
+    for(int i=0; i<100; ++i) {
+        double r = (double) rand() / RAND_MAX;
+        if(r<rate) {
+            rmask[i] = 1;
+        }
+    }
+//    std::cout << rmask;
+    std::bitset<100> ret;
+    for(int i=0; i<100; ++i) {
+        if(rmask.test(i)) {
+            ga.mutationGa(i);
+        }
+    }
+    return ga;
+}

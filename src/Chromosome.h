@@ -2,6 +2,9 @@
 #define CHROMOSOME_H_INCLUDED
 
 #include <bitset>
+#include <vector>
+#include <set>
+#include <map>
 
 class Chromosome {
     std::bitset<100> body;
