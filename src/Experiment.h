@@ -8,6 +8,7 @@
 #include <ctime>
 #include <bitset>
 #include <fstream>
+#include <map>
 
 #include "Problem.h"
 #include "Chromosome.h"

@@ -12,6 +12,10 @@ public :
     Chromosome(std::bitset<100> *);
 
     std::bitset<100> getbody() const;
+
+    void mutationGa(int i) {
+        body.flip(i);
+    }
 };
 
 #endif // CHROMOSOME_H_INCLUDED

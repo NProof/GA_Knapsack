@@ -40,17 +40,142 @@ double Experiment::calBest() const
     return best;
 }
 
+std::pair<std::vector<Chromosome*>, std::vector<Chromosome*> > select(std::map<Chromosome*, double> gas, int n) {
+    auto cmp = [](std::pair<Chromosome*, double> a, std::pair<Chromosome*, double> b) {
+        return a.second > b.second || (a.second == b.second && a.first < b.first);
+    };
+    std::set<std::pair<Chromosome*, double>, decltype(cmp)> orderGas(cmp);
+    for(std::pair<Chromosome*, double> g : gas) {
+        orderGas.insert(g);
+    }
+//    std::cout << "orderGas.size() : " << orderGas.size() << "\n";
+    auto iter = orderGas.begin();
+    std::pair<std::vector<Chromosome*>, std::vector<Chromosome*> > ret;
+    for(int i=0; i<n; ++i) {
+        ret.first.push_back(iter->first);
+        ++iter;
+    }
+    while(iter != orderGas.end()) {
+        ret.second.push_back(iter->first);
+        ++iter;
+    }
+    return ret;
+}
+
+Chromosome * crossover(Chromosome & a, Chromosome & b) {
+    std::bitset<100> rmask;
+    double rate = 0.4;
+    for(int i=0; i<100; ++i) {
+        double r = (double) rand() / RAND_MAX;
+        if(r<rate) {
+            rmask[i] = 1;
+        }
+    }
+//    std::cout << rmask;
+    std::bitset<100> ret;
+    std::bitset<100> aga, bga;
+    aga = a.getbody();
+    bga = b.getbody();
+    for(int i=0; i<100; ++i) {
+        if(rmask.test(i)) {
+            ret[i] = aga[i];
+        }
+        else {
+            ret[i] = bga[i];
+        }
+    }
+    return new Chromosome(&ret);
+}
+
+Chromosome & mutation(Chromosome & ga) {
+    std::bitset<100> rmask;
+    double rate = 0.043;
+    for(int i=0; i<100; ++i) {
+        double r = (double) rand() / RAND_MAX;
+        if(r<rate) {
+            rmask[i] = 1;
+        }
+    }
+//    std::cout << rmask;
+    std::bitset<100> ret;
+    for(int i=0; i<100; ++i) {
+        if(rmask.test(i)) {
+            ga.mutationGa(i);
+        }
+    }
+    return ga;
+}
+
 int Experiment::runAlgorithm() {
     srand(std::time(0));
 
     std::set<Chromosome*> group ;
+    std::map<Chromosome*, double> fitMaps;
     for(int i=0; i<15; ++i) {
-        group.insert(new Chromosome(nullptr));
-    }
-    for(auto individual : group) {
+        auto individual = new Chromosome(nullptr);
+        group.insert(individual);
         double val = p.fitness(*individual, this);
-        std::cout << individual->getbody() << " [F] : " << val << "\n";
+        fitMaps.insert(std::make_pair(individual, val));
+//        std::cout << individual->getbody() << " [F] : " << val << "\n";
     }
+
+    auto selGas = select(fitMaps, 5);
+    for(auto i : selGas.second) {
+        fitMaps.erase(i);
+        group.erase(i);
+        delete i;
+    }
+    selGas.second.clear();
+
+    double last5Mean;
+    double crr5Mean = 0;
+    long times = 1;
+
+    for(auto chr : selGas.first) {
+        crr5Mean += fitMaps[chr];
+    }
+    crr5Mean /= selGas.first.size();
+
+    int acc = 0;
+    do{
+        ++times;
+        last5Mean = crr5Mean;
+
+        for(auto a : selGas.first) {
+            for(auto b : selGas.first) {
+                if(a!=b)
+                    continue;
+                Chromosome * newIndividual = crossover(*a, *b);
+                mutation(*newIndividual);
+                double val = p.fitness(*newIndividual, this);
+                group.insert(newIndividual);
+                fitMaps.insert(std::make_pair(newIndividual, val));
+    //            std::cout << newIndividual->getGa() << " : " << fitness(*newIndividual) << "\n";
+            }
+        }
+
+        selGas = select(fitMaps, 5);
+        for(auto i : selGas.second) {
+            fitMaps.erase(i);
+            group.erase(i);
+            delete i;
+        }
+        selGas.second.clear();
+
+        crr5Mean = 0;
+        for(auto chr : selGas.first) {
+            crr5Mean += fitMaps[chr];
+        }
+        crr5Mean /= selGas.first.size();
+
+        if (abs(crr5Mean - last5Mean) > 0.0000001)
+            acc = 0;
+        else
+            ++acc;
+
+    }
+    while (times < 350000 && acc < 9999);
+
     for(auto i : group) {
         delete i;
     }
