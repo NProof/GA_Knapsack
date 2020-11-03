@@ -4,6 +4,12 @@
 #include "Problem.h"
 #include "Experiment.h"
 
+std::ostream& operator<<(std::ostream& os, const Experiment& ex)
+{
+    os << ex.gettimes() << " and " << ex.calBest();
+    return os;
+}
+
 int main() {
     std::ios_base::sync_with_stdio(false);
 

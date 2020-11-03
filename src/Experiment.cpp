@@ -7,12 +7,6 @@ Experiment::Experiment(Problem & p)
     table = std::vector<Record> ();
 }
 
-std::ostream& operator<<(std::ostream& os, const Experiment& ex)
-{
-    os << ex.gettimes() << " and " << ex.calBest();
-    return os;
-}
-
 long Experiment::gettimes() const
 {
     return times;
