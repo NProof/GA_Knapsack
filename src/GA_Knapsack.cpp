@@ -11,16 +11,8 @@ int main() {
     std::ios_base::sync_with_stdio(false);
 
     Problem p;
-    Experiment experiment;
-
-    std::set<Chromosome*> group ;
-    for(int i=0; i<15; ++i) {
-        group.insert(new Chromosome(nullptr));
-    }
-    for(auto individual : group) {
-        double val = p.fitness(*individual, &experiment);
-        std::cout << individual->getbody() << " [F] : " << val << "\n";
-    }
+    Experiment experiment(p);
+    experiment.runAlgorithm();
     std::cout << experiment << "\n";
     return 0;
 }

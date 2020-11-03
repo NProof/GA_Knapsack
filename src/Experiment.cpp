@@ -1,6 +1,7 @@
 #include "Experiment.h"
 
-Experiment::Experiment()
+Experiment::Experiment(Problem & p)
+:p(p)
 {
     times = 0;
     table = std::vector<Record> ();
@@ -39,4 +40,17 @@ double Experiment::calBest() const
         }
     }
     return best;
+}
+
+int Experiment::runAlgorithm() {
+    std::set<Chromosome*> group ;
+    for(int i=0; i<15; ++i) {
+        group.insert(new Chromosome(nullptr));
+    }
+    for(auto individual : group) {
+        double val = p.fitness(*individual);
+        addRecord(Record(individual->getbody(), val));
+        std::cout << individual->getbody() << " [F] : " << val << "\n";
+    }
+    return 0;
 }
