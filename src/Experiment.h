@@ -6,6 +6,7 @@
 #include <set>
 #include <vector>
 #include <bitset>
+#include <fstream>
 
 #include "Problem.h"
 #include "Chromosome.h"
@@ -23,11 +24,15 @@ public:
 
     long gettimes() const;
 
+    std::vector<Record> gettable() const;
+
     void addRecord(Record record);
 
     double calBest() const;
 
     int runAlgorithm();
+
+    int reportToFile(std::ofstream & ofs);
 };
 
 #endif // EXPERIMENT_H_INCLUDED

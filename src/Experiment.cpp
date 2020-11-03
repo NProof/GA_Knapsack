@@ -12,6 +12,10 @@ long Experiment::gettimes() const
     return times;
 }
 
+std::vector<Record> Experiment::gettable() const {
+    return table;
+}
+
 void Experiment::addRecord(Record record)
 {
     ++(this->times);
@@ -45,6 +49,29 @@ int Experiment::runAlgorithm() {
         double val = p.fitness(*individual);
         addRecord(Record(individual->getbody(), val));
         std::cout << individual->getbody() << " [F] : " << val << "\n";
+    }
+    return 0;
+}
+
+int Experiment::reportToFile(std::ofstream & ofs) {
+    auto table = gettable();
+    if(table.size() == 0) {
+        ofs << "no message\n";
+        return -1;
+    }
+    else {
+        long i = 1;
+        std::vector<Record>::iterator iter = table.begin();
+        double upperval = iter->getOutput();
+        ++iter;
+        ofs << i << ", " << upperval << "\n";
+        while(iter != table.end()) {
+            ++i;
+            if(iter->getOutput() > upperval)
+                upperval = iter->getOutput();
+            ofs << i << ", " << upperval << "\n";
+            ++iter;
+        }
     }
     return 0;
 }

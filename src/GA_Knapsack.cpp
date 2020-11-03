@@ -6,7 +6,7 @@
 
 std::ostream& operator<<(std::ostream& os, const Experiment& ex)
 {
-    os << ex.gettimes() << " and " << ex.calBest();
+    os << ex.gettimes() << " and " << ex.calBest() << "\n";
     return os;
 }
 
@@ -16,6 +16,10 @@ int main() {
     Problem p;
     Experiment experiment(p);
     experiment.runAlgorithm();
-    std::cout << experiment << "\n";
+    std::cout << experiment;
+    std::ofstream file;
+    file.open("output.csv");
+    experiment.reportToFile(file);
+    file.close();
     return 0;
 }
