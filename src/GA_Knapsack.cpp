@@ -1,10 +1,7 @@
 //#include <bits/stdc++.h>
 #include <iostream>
-#include <bitset>
-#include <set>
 
 #include "Problem.h"
-#include "Chromosome.h"
 #include "Experiment.h"
 
 int main() {

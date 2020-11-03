@@ -2,6 +2,7 @@
 #define EXPERIMENT_H_INCLUDED
 
 #include <iostream>
+#include <bitset>
 #include <set>
 #include <vector>
 #include <bitset>
