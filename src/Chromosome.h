@@ -21,4 +21,8 @@ public :
     }
 };
 
+std::pair<std::vector<Chromosome*>, std::vector<Chromosome*> > select(std::map<Chromosome*, double> gas, int n);
+Chromosome * crossover(Chromosome & a, Chromosome & b);
+Chromosome & mutation(Chromosome & ga);
+
 #endif // CHROMOSOME_H_INCLUDED
