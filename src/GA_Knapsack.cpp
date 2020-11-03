@@ -9,7 +9,7 @@
 
 std::ostream& operator<<(std::ostream& os, const Experiment& ex)
 {
-    os << ex.gettimes() << " and " << ex.calBest() << "\n";
+    os << ex.gettimes() << ", " << ex.calBest() << "\n";
     return os;
 }
 
@@ -19,17 +19,20 @@ int main() {
     Problem p;
     std::vector<Experiment *> exps = std::vector<Experiment *>();
 //    exps = (Experiment **)malloc(sizeof(Experiment*)*SAMPLES);
+    std::ofstream summaryfile;
+    summaryfile.open("sumInfo.csv");
     for(int i=0; i<SAMPLES; ++i) {
         exps.push_back(new Experiment(p));
         Experiment experiment = *exps.at(i);
         experiment.runAlgorithm();
-        std::cout << experiment;
+        summaryfile << experiment;
 //        std::ofstream file;
 //        std::string name = "output";
 //        file.open(name+std::to_string(i+1)+".csv");
 //        experiment.reportToFile(file);
 //        file.close();
     }
+    summaryfile.close();
 /*
  *     std::ofstream file;
  *     file.open("avg.csv");
