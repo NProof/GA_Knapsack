@@ -68,12 +68,13 @@ int Experiment::reportToFile(std::ofstream & ofs) {
         std::vector<Record>::iterator iter = table.begin();
         double upperval = iter->getOutput();
         ++iter;
-        ofs << i << ", " << upperval << "\n";
+        ofs << i << ", " << upperval << ", " << iter->getInput() << ", " << upperval << "\n";
         while(iter != table.end()) {
             ++i;
-            if(iter->getOutput() > upperval)
-                upperval = iter->getOutput();
-            ofs << i << ", " << upperval << "\n";
+            double output = iter->getOutput();
+            if(output > upperval)
+                upperval = output;
+            ofs << i << ", " << upperval << ", " << iter->getInput() << ", " << output << "\n";
             ++iter;
         }
     }
