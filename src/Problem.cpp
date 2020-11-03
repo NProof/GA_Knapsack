@@ -7,7 +7,7 @@ Problem::Problem() {
     }
 }
 
-double Problem::fitness(Chromosome & input) {
+double Problem::fitness(Chromosome & input, Experiment * experiment) {
 
     std::bitset<100> g = input.getbody();
     double worth = 0;
@@ -19,5 +19,7 @@ double Problem::fitness(Chromosome & input) {
            worth += items[i].getp() * g.test(i);
     }
     double val = worth - (load > W ? 550 : 0);
+    if (experiment)
+        experiment->addRecord(Record(g, val));
     return val;
 }

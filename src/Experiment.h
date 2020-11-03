@@ -5,12 +5,15 @@
 #include <bitset>
 #include <set>
 #include <vector>
+#include <ctime>
 #include <bitset>
 #include <fstream>
 
 #include "Problem.h"
 #include "Chromosome.h"
 #include "Record.h"
+
+class Problem;
 
 class Experiment
 {

@@ -41,13 +41,14 @@ double Experiment::calBest() const
 }
 
 int Experiment::runAlgorithm() {
+    srand(std::time(0));
+
     std::set<Chromosome*> group ;
     for(int i=0; i<15; ++i) {
         group.insert(new Chromosome(nullptr));
     }
     for(auto individual : group) {
-        double val = p.fitness(*individual);
-        addRecord(Record(individual->getbody(), val));
+        double val = p.fitness(*individual, this);
         std::cout << individual->getbody() << " [F] : " << val << "\n";
     }
     for(auto i : group) {
