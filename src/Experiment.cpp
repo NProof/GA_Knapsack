@@ -6,7 +6,13 @@ Experiment::Experiment()
     table = std::vector<Record> ();
 }
 
-long Experiment::gettimes()
+std::ostream& operator<<(std::ostream& os, const Experiment& ex)
+{
+    os << ex.gettimes() << " and " << ex.calBest();
+    return os;
+}
+
+long Experiment::gettimes() const
 {
     return times;
 }
@@ -17,7 +23,7 @@ void Experiment::addRecord(Record record)
     this->table.push_back(record);
 }
 
-double Experiment::calBest()
+double Experiment::calBest() const
 {
     double best, output;
     int i = 0;

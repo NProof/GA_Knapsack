@@ -10,8 +10,8 @@ class Record
 public:
     Record(std::bitset<100>, double) ;
 
-    std::bitset<100> getInput();
-    double getOutput();
+    std::bitset<100> getInput() const;
+    double getOutput() const;
 };
 
 #endif // RECORD_H_INCLUDED

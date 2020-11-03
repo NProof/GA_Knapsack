@@ -5,12 +5,12 @@ Record::Record(std::bitset<100> input, double output) {
     this->output = output;
 }
 
-std::bitset<100> Record::getInput()
+std::bitset<100> Record::getInput() const
 {
     return input;
 }
 
-double Record::getOutput()
+double Record::getOutput() const
 {
     return output;
 }

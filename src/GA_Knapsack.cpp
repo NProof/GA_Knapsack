@@ -21,7 +21,6 @@ int main() {
         double val = p.fitness(*individual, &experiment);
         std::cout << individual->getbody() << " [F] : " << val << "\n";
     }
-    std::cout << experiment.gettimes() << "\n";
-    std::cout << experiment.calBest() << "\n";
+    std::cout << experiment << "\n";
     return 0;
 }
