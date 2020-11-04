@@ -1,16 +1,41 @@
 //#include <bits/stdc++.h>
 #include <iostream>
 #include <string>
+//#include <bitset>
 
 #include "Problem.h"
 #include "Experiment.h"
 
-#define SAMPLES 5
+#define SAMPLES 100
 
 std::ostream& operator<<(std::ostream& os, const Experiment& ex)
 {
-    os << ex.gettimes() << ", " << ex.calBest() << "\n";
-    return os;
+    std::vector<Record> table = ex.gettable();
+    Record record = table.at(0);
+    std::bitset<100> bestInd = record.getInput();
+    double bestFit = record.getOutput();
+    long last = 0;
+    long crru = 1;
+    for(; crru<ex.gettimes(); ++crru) {
+        record = table.at(crru);
+        double temp = record.getOutput();
+        if(temp > bestFit) {
+            last = crru;
+            bestInd = record.getInput();
+            bestFit = temp;
+        }
+    }
+    int classItems[10] = {0};
+    for(int i=0; i<100; ++i) {
+        if(bestInd.test(i))
+            ++classItems[(i/10)];
+    }
+//    os << bestFit << ", " << last + 1 << ", " << crru << ", " << bestInd << "\n";
+    os << bestFit << ", " << last + 1 << ", " << crru;
+    for(int i=0; i<10; ++i) {
+        os << ", " << classItems[i];
+    }
+    return os << "\n";
 }
 
 int main() {
