@@ -23,6 +23,9 @@ std::bitset<100> Chromosome::getbody() const {
     return body;
 }
 
+void Chromosome::mutationGa(int i){
+    body.flip(i);
+}
 
 std::pair<std::vector<Chromosome*>, std::vector<Chromosome*> > select(std::map<Chromosome*, double> gas, int n) {
     auto cmp = [](std::pair<Chromosome*, double> a, std::pair<Chromosome*, double> b) {
