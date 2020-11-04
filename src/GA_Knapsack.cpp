@@ -22,14 +22,14 @@ int main() {
     std::ofstream summaryfile;
     summaryfile.open("sumInfo.csv");
     for(int i=0; i<SAMPLES; ++i) {
-        exps.push_back(new Experiment(p));
-        Experiment experiment = *exps.at(i);
-        experiment.runAlgorithm();
-        summaryfile << experiment;
+        Experiment * ptr_exp = new Experiment(p);
+        exps.push_back(ptr_exp);
+        ptr_exp->runAlgorithm();
+        summaryfile << *ptr_exp;
 //        std::ofstream file;
 //        std::string name = "output";
 //        file.open(name+std::to_string(i+1)+".csv");
-//        experiment.reportToFile(file);
+//        ptr_exp->reportToFile(file);
 //        file.close();
     }
     summaryfile.close();
