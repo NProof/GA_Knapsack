@@ -33,50 +33,57 @@ int main() {
 //        file.close();
     }
     summaryfile.close();
-/*
- *     std::ofstream file;
- *     file.open("avg.csv");
- *     std::vector<Record> tables[SAMPLES];
- *     std::vector<Record>::iterator iter[SAMPLES];
- *     double betters[SAMPLES];
- *     long conuts = 1;
- *     for(int i=0; i<SAMPLES; ++i) {
- *         tables[i] = exps[i]->gettable();
- *         iter[i] = tables[i].begin();
- *         betters[i] = iter[i]->getOutput();
- *
- *         double avg = 0.0;
- *         for(int i=0; i<SAMPLES; ++i) {
- *             avg += betters[i];
- *         }
- *         avg /= SAMPLES;
- *
- *         file << conuts << "\t" << avg << "\n";
- *     }
- *     bool condition;
- *     while (true) {
- *         ++conuts;
- *         condition = false;
- *         for(int i=0; i<SAMPLES; ++i) {
- *             if(iter[i]!=tables[i].end()) {
- *                 condition = true;
- *                 ++iter[i];
- *                 if(iter[i]->getOutput()>betters[i])
- *                     betters[i] = iter[i]->getOutput();
- *             }
- *         }
- *         if(!condition)
- *             break;
- *
- *         double avg = 0.0;
- *         for(int i=0; i<SAMPLES; ++i) {
- *             avg += betters[i];
- *         }
- *         avg /= SAMPLES;
- *
- *         file << conuts << "\t" << avg << "\n";
- *     }
- *     file.close();
- */
+
+
+//    for(int i=0; i<SAMPLES; ++i) {
+//        Experiment experiment = *exps.at(i);
+//        auto ta = experiment.gettable();
+//        std::cout << ta.size() << "\n";
+//    }
+
+    std::ofstream avgfile;
+    avgfile.open("avg.csv");
+
+    std::vector<Record> tables[SAMPLES];
+    std::vector<Record>::iterator iter[SAMPLES];
+    double betters[SAMPLES];
+    long conuts = 1;
+    double avg = 0.0;
+    for(int i=0; i<SAMPLES; ++i) {
+        tables[i] = exps.at(i)->gettable();
+        iter[i] = tables[i].begin();
+        betters[i] = iter[i]->getOutput();
+    }
+    for(int i=0; i<SAMPLES; ++i) {
+        avg += betters[i];
+    }
+    avg /= SAMPLES;
+//
+    avgfile << conuts << ",\t" << avg << "\n";
+//    bool condition;
+//    while (true) {
+//        ++conuts;
+//        condition = false;
+//        for(int i=0; i<SAMPLES; ++i) {
+//            if(iter[i]!=tables[i].end()) {
+//                condition = true;
+//            ++iter[i];
+//            if(iter[i]->getOutput()>betters[i])
+//                betters[i] = iter[i]->getOutput();
+//            }
+//        }
+//        if(!condition)
+//        break;
+//
+//        double avg = 0.0;
+//        for(int i=0; i<SAMPLES; ++i) {
+//            avg += betters[i];
+//        }
+//        avg /= SAMPLES;
+//
+//        avgfile << conuts << ",\t" << avg << "\n";
+//    }
+    avgfile.close();
+
     return 0;
 }
