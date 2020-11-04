@@ -79,12 +79,14 @@ int Experiment::runAlgorithm() {
             for(auto b : selGas.first) {
                 if(a!=b)
                     continue;
-                Chromosome * newIndividual = crossover(*a, *b);
-                mutation(*newIndividual);
-                double val = p.fitness(*newIndividual, this);
-                group.insert(newIndividual);
-                fitMaps.insert(std::make_pair(newIndividual, val));
-    //            std::cout << newIndividual->getGa() << " : " << fitness(*newIndividual) << "\n";
+                std::vector<Chromosome *> newIndividuals = crossover(*a, *b);
+                for(auto chr : newIndividuals) {
+                    mutation(*chr);
+                    double val = p.fitness(*chr, this);
+                    group.insert(chr);
+                    fitMaps.insert(std::make_pair(chr, val));
+        //            std::cout << chr->getGa() << " : " << fitness(*chr) << "\n";
+                }
             }
         }
 

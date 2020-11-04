@@ -49,7 +49,7 @@ std::pair<std::vector<Chromosome*>, std::vector<Chromosome*> > select(std::map<C
     return ret;
 }
 
-Chromosome * crossover(Chromosome & a, Chromosome & b) {
+std::vector<Chromosome *> crossover(Chromosome & a, Chromosome & b) {
     std::bitset<100> rmask;
     double rate = 0.4;
     for(int i=0; i<100; ++i) {
@@ -59,6 +59,7 @@ Chromosome * crossover(Chromosome & a, Chromosome & b) {
         }
     }
 //    std::cout << rmask;
+    std::vector<Chromosome *> containerChr;
     std::bitset<100> ret;
     std::bitset<100> aga, bga;
     aga = a.getbody();
@@ -71,7 +72,9 @@ Chromosome * crossover(Chromosome & a, Chromosome & b) {
             ret[i] = aga[i];
         }
     }
-    return new Chromosome(&ret);
+    Chromosome *chr = new Chromosome(&ret);
+    containerChr.push_back(chr);
+    return containerChr;
 }
 
 Chromosome & mutation(Chromosome & ga) {
