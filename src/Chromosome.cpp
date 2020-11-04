@@ -65,10 +65,10 @@ Chromosome * crossover(Chromosome & a, Chromosome & b) {
     bga = b.getbody();
     for(int i=0; i<100; ++i) {
         if(rmask.test(i)) {
-            ret[i] = aga[i];
+            ret[i] = bga[i];
         }
         else {
-            ret[i] = bga[i];
+            ret[i] = aga[i];
         }
     }
     return new Chromosome(&ret);
