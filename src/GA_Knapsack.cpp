@@ -6,7 +6,7 @@
 #include "Problem.h"
 #include "Experiment.h"
 
-#define SAMPLES 100
+#define SAMPLES 2
 
 std::ostream& operator<<(std::ostream& os, const Experiment& ex)
 {

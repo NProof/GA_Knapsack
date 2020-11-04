@@ -40,14 +40,22 @@ double Experiment::calBest() const
     return best;
 }
 
+std::set<Chromosome*> initGroup_v1() {
+    std::set<Chromosome*> retrunGourp;
+    for(int i=0; i<15; ++i) {
+        auto individual = new Chromosome(nullptr);
+        retrunGourp.insert(individual);
+    }
+    return retrunGourp;
+}
+
 int Experiment::runAlgorithm() {
     srand(std::time(0));
 
-    std::set<Chromosome*> group ;
+    std::set<Chromosome*> group = initGroup_v1();
+
     std::map<Chromosome*, double> fitMaps;
-    for(int i=0; i<15; ++i) {
-        auto individual = new Chromosome(nullptr);
-        group.insert(individual);
+    for(auto individual : group) {
         double val = p.fitness(*individual, this);
         fitMaps.insert(std::make_pair(individual, val));
 //        std::cout << individual->getbody() << " [F] : " << val << "\n";
