@@ -49,10 +49,49 @@ std::set<Chromosome*> initGroup_v1() {
     return retrunGourp;
 }
 
+std::set<Chromosome*> initGroup_v2(Problem & p) {
+    std::set<Chromosome*> retrunGourp;
+    double partW = p.W * 0.6;
+    double whave = 0;
+    int n = 0;
+    std::vector<Item> items = p.items;
+    while(items[n].getw() <= partW) {
+        partW -= items[n].getw();
+        whave += items[n].getw();
+        ++n;
+    }
+
+    for(int i=0; i<15; ++i) {
+        auto individual = new Chromosome(nullptr);
+        retrunGourp.insert(individual);
+    }
+
+    for(auto ptr_chr : retrunGourp) {
+        for(int i=0; i<n; ++i) {
+            ptr_chr->carryIn(i);
+        }
+        std::bitset<100> bitStr = ptr_chr->getbody();
+        double tmp = whave;
+        for(int i=n; i<100; ++i) {
+            if(bitStr.test(i))
+                tmp += items[i].getw();
+        }
+        int k = 99;
+        while(tmp > p.W) {
+            if(bitStr.test(k)) {
+                tmp -= items[k].getw();
+                ptr_chr->carryOut(k);
+            }
+            --k;
+        }
+    }
+    return retrunGourp;
+}
+
 int Experiment::runAlgorithm() {
     srand(std::time(0));
 
-    std::set<Chromosome*> group = initGroup_v1();
+    std::set<Chromosome*> group = initGroup_v2(p);
 
     std::map<Chromosome*, double> fitMaps;
     for(auto individual : group) {

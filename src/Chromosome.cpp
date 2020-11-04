@@ -27,6 +27,14 @@ void Chromosome::mutationGa(int i){
     body.flip(i);
 }
 
+void Chromosome::carryIn(int i) {
+    body.set(i);
+}
+
+void Chromosome::carryOut(int i) {
+    body.reset(i);
+}
+
 std::pair<std::vector<Chromosome*>, std::vector<Chromosome*> > select(std::map<Chromosome*, double> gas, int n) {
     auto cmp = [](std::pair<Chromosome*, double> a, std::pair<Chromosome*, double> b) {
         return a.second > b.second || (a.second == b.second && a.first < b.first);

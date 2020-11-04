@@ -17,6 +17,10 @@ public :
     std::bitset<100> getbody() const;
 
     void mutationGa(int);
+
+    void carryIn(int);
+
+    void carryOut(int);
 };
 
 std::pair<std::vector<Chromosome*>, std::vector<Chromosome*> > select(std::map<Chromosome*, double> gas, int n);
