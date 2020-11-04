@@ -26,6 +26,7 @@ int main() {
         exps.push_back(ptr_exp);
         ptr_exp->runAlgorithm();
         summaryfile << *ptr_exp;
+
 //        std::ofstream file;
 //        std::string name = "output";
 //        file.open(name+std::to_string(i+1)+".csv");
@@ -33,13 +34,6 @@ int main() {
 //        file.close();
     }
     summaryfile.close();
-
-
-//    for(int i=0; i<SAMPLES; ++i) {
-//        Experiment experiment = *exps.at(i);
-//        auto ta = experiment.gettable();
-//        std::cout << ta.size() << "\n";
-//    }
 
     std::ofstream avgfile;
     avgfile.open("avg.csv");
@@ -59,30 +53,30 @@ int main() {
     }
     avg /= SAMPLES;
 //
-    avgfile << conuts << ",\t" << avg << "\n";
-//    bool condition;
-//    while (true) {
-//        ++conuts;
-//        condition = false;
-//        for(int i=0; i<SAMPLES; ++i) {
-//            if(iter[i]!=tables[i].end()) {
-//                condition = true;
-//            ++iter[i];
-//            if(iter[i]->getOutput()>betters[i])
-//                betters[i] = iter[i]->getOutput();
-//            }
-//        }
-//        if(!condition)
-//        break;
-//
-//        double avg = 0.0;
-//        for(int i=0; i<SAMPLES; ++i) {
-//            avg += betters[i];
-//        }
-//        avg /= SAMPLES;
-//
-//        avgfile << conuts << ",\t" << avg << "\n";
-//    }
+    avgfile << conuts << "," << avg << "\n";
+    bool condition;
+    while (true) {
+        ++conuts;
+        condition = false;
+        for(int i=0; i<SAMPLES; ++i) {
+            if(iter[i]!=tables[i].end()) {
+                condition = true;
+            ++iter[i];
+            if(iter[i]->getOutput()>betters[i])
+                betters[i] = iter[i]->getOutput();
+            }
+        }
+        if(!condition)
+        break;
+
+        double avg = 0.0;
+        for(int i=0; i<SAMPLES; ++i) {
+            avg += betters[i];
+        }
+        avg /= SAMPLES;
+
+        avgfile << conuts << "," << avg << "\n";
+    }
     avgfile.close();
 
     return 0;
