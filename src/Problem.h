@@ -2,7 +2,6 @@
 #define PROBLEM_H_INCLUDED
 
 #include <vector>
-#include <bitset>
 
 #include "Chromosome.h"
 #include "Experiment.h"
